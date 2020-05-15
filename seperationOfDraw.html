@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
+ <style>
+
+html {
+    cursor: none;
+}
+
+body {
+   
+}
+
+#image1 {
+    position: absolute;
+    width:100vw;
+    transform: translateX(-50%) translateY(-100%);
+    
+    /* z-index: -1;1; */
+}
+
+
+#smallCircle {
+    position: absolute;
+    background-color: red;
+    left:200px;
+    width:10px;
+    height:10px;
+    border-radius: 90px;
+    z-index: 2;
+}
+
+#bigCircle {
+    position: absolute;
+    left:100px;
+    top:100px;
+    background-color: rgba(10,10,10,0.3);
+    background-color: rgba(231, 235, 11, 0.3);
+    border: 2px solid red;
+    width:100px;
+    height:100px;
+    border-radius: 90px;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 1;
+}
+
+#border{    
+    /* background-color: rgba(0,0,100,0.5); */
+    margin-top: 10vh;
+    width: 100%;
+    /* width: 400px;
+    height: 400px;
+    border-radius: 200px; */
+    position: absolute;
+    transform: translateX(-50%) translateY(-60%);
+    clip-path: circle(200px);
+}
+
+ </style>
+    <title>animated menu</title>
+</head>
+<body>
+
+
+
+
+    <div class="container">
+        <div id="smallCircle"></div>
+        <div id="bigCircle"></div>
+        <div id="border">
+            <img src="crowdCells.jpeg" alt="" id="image1" >
+        </div>
+    </div>
+
+
+
+
+
+
+    <script>
+        let smallCircle = document.getElementById('smallCircle');
+        let bigCircle = document.getElementById('bigCircle');
+        let border = document.getElementById('border');
+        let image1 = document.getElementById('image1');
+        // console.log(cheese, mouse);
+        let mousePosition = {
+            x: 0,
+            y: 0
+        }
+        let characters = [
+        {
+            x: 200,
+            y: 200,
+            speed: 1000,
+            target: smallCircle
+        },
+        {
+            x:0,
+            y: 200,
+            speed:100,
+            target: bigCircle
+        },
+        {
+            x:100,
+            y: 200,
+            speed:20,
+            target: border
+        },
+        {
+            x:100,
+            y: 200,
+            speed:50,
+            target: image1
+        }
+        ]
+    
+       
+        let timer = false;
+        window.addEventListener("mousemove", e=>{
+            updatePos(getMousePos(e));
+             })
+
+
+
+        loop();
+
+        //main animation loop
+        function loop(){
+            chaseMouse(characters);
+            drawObjects(characters);
+            window.requestAnimationFrame(loop);
+        }
+
+
+        function getMousePos(e) {
+             return {x:e.clientX,y:e.clientY};
+            }
+        function updatePos(coords){
+            mousePosition.x = coords.x;
+            mousePosition.y = coords.y;
+        }
+            
+
+        function drawObjects(objects){
+            objects.forEach(obj=>{
+            obj.target.style.left = obj.x + 'px';
+            obj.target.style.top = obj.y + 'px';
+            })
+        
+        }
+
+        function chaseMouse(objects){
+            
+            objects.forEach(obj=>{
+                const distanceX = mousePosition.x - obj.x;
+                const distanceY = mousePosition.y - obj.y;
+                obj.x = obj.x + (distanceX/1000)*obj.speed;
+                obj.y = obj.y + (distanceY/1000)*obj.speed;
+            })            
+        }    
+
+    </script>
+
+
+
+
+
+</body>
+</html>

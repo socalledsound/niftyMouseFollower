@@ -1,0 +1,51 @@
+html {
+    cursor: none;
+}
+
+body {
+   
+}
+
+img {
+    
+    width:100%;
+
+    clip-path: circle(200px);
+    /* z-index: -1;1; */
+}
+
+
+#smallCircle {
+    position: absolute;
+    background-color: red;
+    left:200px;
+    width:10px;
+    height:10px;
+    border-radius: 90px;
+    z-index: 2;
+}
+
+#bigCircle {
+    position: absolute;
+    left:100px;
+    top:100px;
+    background-color: rgba(10,10,10,0.3);
+    background-color: rgba(231, 235, 11, 0.3);
+    border: 2px solid red;
+    width:100px;
+    height:100px;
+    border-radius: 90px;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 1;
+}
+
+#picture{    
+    /* background-color: rgba(0,0,100,0.5); */
+    margin-top: 10vh;
+    width: 100%;
+    /* width: 400px;
+    height: 400px;
+    border-radius: 200px; */
+    position: absolute;
+    transform: translateX(-50%) translateY(-60%);
+}
