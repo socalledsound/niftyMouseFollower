@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="css/styles.css">
+    <title>animated menu</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+
+        <div class="container">
+            <a href="index.html" class="navbar-brand">animated menu</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="#home-section" class="nav-link">home</a></li>
+                    <li class="nav-item"><a href="explore-head-section" class="nav-link">explore</a></li>
+                    <li class="nav-item"><a href="#create-head-section" class="nav-link">create</a></li>
+                    <li class="nav-item"><a href="#share-head-section" class="nav-link">share</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    
+    </nav>
+
+
+
+    <div class="container">
+        <div id="cheese"></div>
+        <div id="mouse"></div>
+        <div id="picture">
+            <img src="crowdCells.jpeg" alt="">
+        </div>
+    </div>
+
+
+
+
+
+
+    <script>
+        let cheese = document.getElementById('cheese');
+        let mouse = document.getElementById('mouse');
+        let picture = document.getElementById('picture');
+        console.log(cheese, mouse);
+        let cheesePos = {
+            x: 200,
+            y: 200
+        };
+
+        let chasers = [{
+            x:0,
+            y: 200,
+            speed:100,
+            target: mouse
+        },
+        {
+            x: 100,
+            y: 200,
+            speed: 20,
+            target: picture
+        }
+
+    ]; 
+
+        let timer = false;
+        window.addEventListener("mousemove", e=>{
+            let coords = getMousePos(e);
+            updatePos(coords);
+            drawCheese();
+             //timer = setTimeout(chaseMouse(chasers), 12000)
+        })
+
+
+
+        loop();
+
+        //main animation loop
+        function loop(){
+            chaseMouse(chasers);
+            drawObjects(chasers);
+            window.requestAnimationFrame(loop);
+        }
+
+
+        function getMousePos(e) {
+             return {x:e.clientX,y:e.clientY};
+            }
+        function updatePos(coords){
+            cheesePos.x = coords.x;
+            cheesePos.y = coords.y;
+        }
+            
+
+        function drawCheese(){
+            cheese.style.left = cheesePos.x + 'px';
+            cheese.style.top = cheesePos.y + 'px';
+            // console.log(cheese, mouse);
+        }
+
+        function drawObjects(objects){
+            objects.forEach(obj=>{
+            obj.target.style.left = obj.x + 'px';
+            obj.target.style.top = obj.y + 'px';
+            })
+        
+        }
+
+        function chaseMouse(objects){
+            
+            objects.forEach(obj=>{
+                const distanceX = cheesePos.x - obj.x;
+                const distanceY = cheesePos.y - obj.y;
+                obj.x = obj.x + (distanceX/1000)*obj.speed;
+                obj.y = obj.y + (distanceY/1000)*obj.speed;
+            })            
+        }    
+
+        function moveRight(objects){
+
+            objects.forEach(obj=>{
+                obj.x+=obj.speed;
+                     
+            })
+            console.log(objects);
+            drawObjects(objects);     
+            }    
+
+
+
+    </script>
+
+
+
+
+
+</body>
+</html>

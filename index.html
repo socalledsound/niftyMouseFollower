@@ -7,38 +7,74 @@
     crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="css/styles.css">
+ <style>
+
+html {
+    cursor: none;
+}
+
+body {
+   
+}
+
+#image1 {
+    position: absolute;
+    width:100vw;
+    transform: translateX(-50%) translateY(-100%);
+    
+    /* z-index: -1;1; */
+}
+
+
+#smallCircle {
+    position: absolute;
+    background-color: red;
+    left:200px;
+    width:10px;
+    height:10px;
+    border-radius: 90px;
+    z-index: 2;
+}
+
+#bigCircle {
+    position: absolute;
+    left:100px;
+    top:100px;
+    background-color: rgba(10,10,10,0.3);
+    background-color: rgba(231, 235, 11, 0.3);
+    border: 2px solid red;
+    width:100px;
+    height:100px;
+    border-radius: 90px;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 1;
+}
+
+#border{    
+    /* background-color: rgba(0,0,100,0.5); */
+    margin-top: 10vh;
+    width: 100%;
+    /* width: 400px;
+    height: 400px;
+    border-radius: 200px; */
+    position: absolute;
+    transform: translateX(-50%) translateY(-60%);
+    clip-path: circle(200px);
+}
+
+ </style>
     <title>animated menu</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
 
-        <div class="container">
-            <a href="index.html" class="navbar-brand">animated menu</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a href="#home-section" class="nav-link">home</a></li>
-                    <li class="nav-item"><a href="explore-head-section" class="nav-link">explore</a></li>
-                    <li class="nav-item"><a href="#create-head-section" class="nav-link">create</a></li>
-                    <li class="nav-item"><a href="#share-head-section" class="nav-link">share</a></li>
-                    
-                </ul>
-            </div>
-        </div>
-    
-    </nav>
 
 
 
     <div class="container">
-        <div id="cheese"></div>
-        <div id="mouse"></div>
-        <div id="picture">
-            <img src="crowdCells.jpeg" alt="">
+        <div id="smallCircle"></div>
+        <div id="bigCircle"></div>
+        <div id="border">
+            <img src="crowdCells.jpeg" alt="" id="image1" >
         </div>
     </div>
 
@@ -48,37 +84,47 @@
 
 
     <script>
-        let cheese = document.getElementById('cheese');
-        let mouse = document.getElementById('mouse');
-        let picture = document.getElementById('picture');
-        console.log(cheese, mouse);
-        let cheesePos = {
+        let smallCircle = document.getElementById('smallCircle');
+        let bigCircle = document.getElementById('bigCircle');
+        let border = document.getElementById('border');
+        let image1 = document.getElementById('image1');
+        // console.log(cheese, mouse);
+        let mousePosition = {
+            x: 0,
+            y: 0
+        }
+        let characters = [
+        {
             x: 200,
-            y: 200
-        };
-
-        let chasers = [{
+            y: 200,
+            speed: 1000,
+            target: smallCircle
+        },
+        {
             x:0,
             y: 200,
             speed:100,
-            target: mouse
+            target: bigCircle
         },
         {
-            x: 100,
+            x:100,
             y: 200,
-            speed: 20,
-            target: picture
+            speed:20,
+            target: border
+        },
+        {
+            x:100,
+            y: 200,
+            speed:50,
+            target: image1
         }
-
-    ]; 
-
+        ]
+    
+       
         let timer = false;
         window.addEventListener("mousemove", e=>{
-            let coords = getMousePos(e);
-            updatePos(coords);
-            drawCheese();
-             //timer = setTimeout(chaseMouse(chasers), 12000)
-        })
+            updatePos(getMousePos(e));
+             })
 
 
 
@@ -86,8 +132,8 @@
 
         //main animation loop
         function loop(){
-            chaseMouse(chasers);
-            drawObjects(chasers);
+            chaseMouse(characters);
+            drawObjects(characters);
             window.requestAnimationFrame(loop);
         }
 
@@ -96,16 +142,10 @@
              return {x:e.clientX,y:e.clientY};
             }
         function updatePos(coords){
-            cheesePos.x = coords.x;
-            cheesePos.y = coords.y;
+            mousePosition.x = coords.x;
+            mousePosition.y = coords.y;
         }
             
-
-        function drawCheese(){
-            cheese.style.left = cheesePos.x + 'px';
-            cheese.style.top = cheesePos.y + 'px';
-            // console.log(cheese, mouse);
-        }
 
         function drawObjects(objects){
             objects.forEach(obj=>{
@@ -118,24 +158,12 @@
         function chaseMouse(objects){
             
             objects.forEach(obj=>{
-                const distanceX = cheesePos.x - obj.x;
-                const distanceY = cheesePos.y - obj.y;
+                const distanceX = mousePosition.x - obj.x;
+                const distanceY = mousePosition.y - obj.y;
                 obj.x = obj.x + (distanceX/1000)*obj.speed;
                 obj.y = obj.y + (distanceY/1000)*obj.speed;
             })            
         }    
-
-        function moveRight(objects){
-
-            objects.forEach(obj=>{
-                obj.x+=obj.speed;
-                     
-            })
-            console.log(objects);
-            drawObjects(objects);     
-            }    
-
-
 
     </script>
 
