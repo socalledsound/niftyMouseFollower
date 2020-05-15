@@ -84,6 +84,7 @@ body {
 
 
     <script>
+        let touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
         let smallCircle = document.getElementById('smallCircle');
         let bigCircle = document.getElementById('bigCircle');
         let border = document.getElementById('border');
